@@ -72,6 +72,7 @@ jobs:
         run: |
           python_files=$(find ${{ github.workspace }} -name "*.py" -type f -not -path '*/\.*' | wc -l)
           echo "python_files=${python_files}" >> $GITHUB_OUTPUT
+          echo "$python_files Python files were found outside the .github folder."
 
       - name: Initialize CodeQL
         if: ${{ steps.find_files.outputs.python_files != '0' }}
