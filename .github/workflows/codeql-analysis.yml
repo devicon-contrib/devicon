@@ -74,16 +74,12 @@ jobs:
           echo "python_files=${python_files}" >> $GITHUB_OUTPUT
           echo "$python_files Python files were found outside the .github folder."
 
-      - name: Skip remaining steps
-        if: ${{ steps.find_files.outputs.python_files != '0' }}
-        run: exit 0
-
       - name: Initialize CodeQL
-        # if: ${{ steps.find_files.outputs.python_files != '0' }}
+        if: ${{ steps.find_files.outputs.python_files != '0' }}
         uses: github/codeql-action/init@v2
         with:
           languages: python
 
       - name: Perform CodeQL Analysis
-        # if: ${{ steps.find_files.outputs.python_files != '0' }}
+        if: ${{ steps.find_files.outputs.python_files != '0' }}
         uses: github/codeql-action/analyze@v2
