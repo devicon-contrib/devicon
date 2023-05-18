@@ -71,7 +71,7 @@ jobs:
         id: find_files
         run: |
           python_files=$(find ${{ github.workspace }} -name "*.py" -type f -not -path '*/\.*' | wc -l)
-          echo "python_files=${python_files}" >> $GITHUB_OUTPUT"
+          echo "python_files=${python_files}" >> $GITHUB_OUTPUT
 
       - name: Initialize CodeQL
         if: ${{ steps.find_files.outputs.python_files != '0' }}
