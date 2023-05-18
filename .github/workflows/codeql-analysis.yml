@@ -9,20 +9,29 @@ on:
     - cron: 30 1 * * 0 # Runs every Sunday 1:30 am UTC
 
 jobs:
-  CodeQL-Build:
-    # CodeQL runs on ubuntu-latest, windows-latest, and macos-latest
+  CodeQL-Javascript:
     runs-on: ubuntu-latest
-
     permissions:
       security-events: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+
+  CodeQL-Python-dot-github:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: List checked out file tree
-        run: |
-          ls -R ${{ github.workspace }}
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -40,13 +49,35 @@ jobs:
           # that includes the dependencies
           echo "CODEQL_PYTHON=${{ steps.setup-python.outputs.python-path }}" >> $GITHUB_ENV
 
-      # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
-        # Override language selection by uncommenting this and choosing your languages
         with:
-          languages: javascript, python
+          languages: python
           setup-python-dependencies: false
+          source-root: .github/
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+
+  CodeQL-Python-rest:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Find Python files outside the .github folder
+        id: find_files
+        run: |
+          python_files=$(find ${{ github.workspace }} -name "*.py" -type f -not -path '*/\.*' | wc -l)
+          echo "echo "python_files=${python_files}"" >> $GITHUB_OUTPUT"
+
+      - name: Initialize CodeQL
+        if: ${{ steps.find_files.outputs.python_files != '0' }}
+        uses: github/codeql-action/init@v2
+        with:
+          languages: python
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
