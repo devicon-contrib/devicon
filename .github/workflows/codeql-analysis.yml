@@ -73,8 +73,12 @@ jobs:
           python_files=$(find ${{ github.workspace }} -name "*.py" -type f -not -path '*/\.*' | wc -l)
           echo "python_files=${python_files}" >> $GITHUB_OUTPUT
 
+      # Skip the rest of the workflow if there are no Python files outside the .github folder
+      - name: Skip if no Python files
+        if: ${{ steps.find_files.outputs.python_files == '0' }}
+        run: exit 0
+
       - name: Initialize CodeQL
-        if: ${{ steps.find_files.outputs.python_files != '0' }}
         uses: github/codeql-action/init@v2
         with:
           languages: python
