@@ -17,9 +17,9 @@ jobs:
     name: Optimize icons with SVGO
     steps:
       - uses: actions/checkout@v3
-        # with:
-        #   repository: ${{ github.event.pull_request.head.repo.full_name }}
-        #   ref: ${{ github.event.pull_request.head.ref }}
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
 
       - uses: ericcornelissen/svgo-action@v3
         id: svgo
@@ -28,7 +28,7 @@ jobs:
           svgo-config: ./.github/scripts/svgo.config.js
           svgo-version: 3
 
-      - name: suggester / svgo
+      - name: Suggest changes to PR
         uses: reviewdog/action-suggester@v1
         with:
-          tool_name: svgo
+          tool_name: SVG Optimization
