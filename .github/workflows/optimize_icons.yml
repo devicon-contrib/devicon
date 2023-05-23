@@ -28,3 +28,4 @@ jobs:
         uses: reviewdog/action-suggester@v1
         with:
           tool_name: svgo
+          token: ${{ secrets.GITHUB_TOKEN }}
