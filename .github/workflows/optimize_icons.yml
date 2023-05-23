@@ -24,6 +24,9 @@ jobs:
           svgo-config: ./.github/scripts/svgo.config.js
           svgo-version: 3
 
+      - run:
+          echo "Hacked"
+
       - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
