@@ -24,10 +24,7 @@ jobs:
           svgo-config: ./.github/scripts/svgo.config.js
           svgo-version: 3
 
-      - name: Commit and push changes
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -m "Bot: Optimize icons"
-          git push origin HEAD
+      - name: suggester / svgo
+        uses: reviewdog/action-suggester@v1
+        with:
+          tool_name: svgo
