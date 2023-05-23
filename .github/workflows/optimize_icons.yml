@@ -1,6 +1,6 @@
 name: Optimize icons
 on:
-  pull_request:
+  pull_request_target:
     paths:
       - 'icons/**/*.svg'
       - '.github/scripts/svgo.config.js'
@@ -32,4 +32,3 @@ jobs:
         uses: reviewdog/action-suggester@v1
         with:
           tool_name: svgo
-          github_token: ${{ secrets.GITHUB_TOKEN }}
