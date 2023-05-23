@@ -5,7 +5,7 @@ on:
       - 'icons/**'
       - '.github/scripts/svgo.config.js'
       - '.github/workflows/optimize-icons.yml'
-    types: [opened, synchronize]
+    types: [opened, synchronize, edited ]
 
 jobs:
   optimize:
