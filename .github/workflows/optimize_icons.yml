@@ -1,0 +1,30 @@
+name: Optimize icons
+on:
+  pull_request:
+    paths:
+      - 'icons/**'
+      - '.github/scripts/svgo.config.js'
+      - '.github/workflows/optimize-icons.yml'
+    types: [opened, synchronize]
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    name: Optimize icons with SVGO
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ericcornelissen/svgo-action@v3
+        id: svgo
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          svgo-config: ./.github/scripts/svgo.config.js
+          svgo-version: 3
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Bot: Optimize icons"
+          git push origin HEAD
