@@ -2,7 +2,7 @@ name: Optimize icons
 on:
   pull_request:
     paths:
-      - 'icons/**'
+      - 'icons/**/*.svg'
       - '.github/scripts/svgo.config.js'
       - '.github/workflows/optimize-icons.yml'
     types: [opened, synchronize, edited ]
