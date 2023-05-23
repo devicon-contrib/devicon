@@ -1,6 +1,6 @@
 name: Optimize icons
 on:
-  pull_request_target:
+  pull_request:
     paths:
       - 'icons/**/*.svg'
       - '.github/scripts/svgo.config.js'
@@ -17,9 +17,9 @@ jobs:
     name: Optimize icons with SVGO
     steps:
       - uses: actions/checkout@v3
-        with:
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          ref: ${{ github.event.pull_request.head.ref }}
+        # with:
+        #   repository: ${{ github.event.pull_request.head.repo.full_name }}
+        #   ref: ${{ github.event.pull_request.head.ref }}
 
       - uses: ericcornelissen/svgo-action@v3
         id: svgo
@@ -28,7 +28,19 @@ jobs:
           svgo-config: ./.github/scripts/svgo.config.js
           svgo-version: 3
 
-      - name: Suggest changes to PR
-        uses: reviewdog/action-suggester@v1
+      - name: Create branch
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b optimize-icons-${{ github.event.pull_request.number }}
+          git add .
+          git commit -m "Optimize icons"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
         with:
-          tool_name: SVG Optimization
+          commit-message: Optimize icons
+          title: Optimize icons
+          body: |
+            This PR optimizes the icons submitted in #${{ github.event.pull_request.number }}.
+          branch: optimize-icons-${{ github.event.pull_request.number }}
