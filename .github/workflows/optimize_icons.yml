@@ -44,3 +44,4 @@ jobs:
           body: |
             This PR optimizes the icons submitted in #${{ github.event.pull_request.number }}.
           branch: optimize-icons-${{ github.event.pull_request.number }}
+          base: ${{ github.event.pull_request.head.ref }}
