@@ -7,6 +7,10 @@ on:
       - '.github/workflows/optimize-icons.yml'
     types: [opened, synchronize, edited ]
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   optimize:
     runs-on: ubuntu-latest
