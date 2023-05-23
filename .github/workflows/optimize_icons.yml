@@ -28,14 +28,6 @@ jobs:
           svgo-config: ./.github/scripts/svgo.config.js
           svgo-version: 3
 
-      - name: Create branch
-        run: |
-          git config --global user.name 'GitHub Actions'
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -b optimize-icons-${{ github.event.pull_request.number }}
-          git add .
-          git commit -m "Optimize icons"
-
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
